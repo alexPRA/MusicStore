@@ -1,0 +1,66 @@
+﻿@model MusicStore.Models.ViewModels.Utilisateur.Inscription
+
+@{ ViewBag.Title = "Inscription"; }
+
+<h2>@ViewBag.Title</h2>
+
+<form action="/Utilisateur/Create" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.NomUtilisateur, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.EditorFor(model => model.NomUtilisateur,
+                                new { htmlAttributes = new { @class = "form-control",
+                                      placeholder = Html.DescriptionFor(model => model.NomUtilisateur) } })
+                @Html.ValidationMessageFor(model => model.NomUtilisateur, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.MotDePasse, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.EditorFor(model => model.MotDePasse, new { htmlAttributes =
+                        new { @class = "form-control",
+                              placeholder = Html.DescriptionFor(model => model.MotDePasse)} })
+                @Html.ValidationMessageFor(model => model.MotDePasse, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConfirmerMotDePasse, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.EditorFor(model => model.ConfirmerMotDePasse, new { htmlAttributes =
+                    new {
+                        @class = "form-control",
+                        placeholder = Html.DescriptionFor(model => model.ConfirmerMotDePasse)
+                    }})
+                @Html.ValidationMessageFor(model => model.ConfirmerMotDePasse, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Courriel, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                @Html.EditorFor(model => model.Courriel, new { htmlAttributes =
+                    new {
+                        @class = "form-control",
+                        placeholder = Html.DescriptionFor(model => model.Courriel)
+                    }})
+                @Html.ValidationMessageFor(model => model.Courriel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.IAgree, htmlAttributes: new { @class = "control-label col-sm-3" })
+            <div class="col-sm-9">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IAgree)
+                    @Html.ValidationMessageFor(model => model.IAgree, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <input type="submit" value="Inscription" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>

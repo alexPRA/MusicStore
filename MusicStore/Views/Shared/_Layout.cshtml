@@ -1,0 +1,85 @@
+﻿@using MusicStore.Models
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/Home/Index">Music Store</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <li class="pull-right"><a href="/Utilisateur/Login">Login</a></li>
+                        <li class="pull-right"><a href="/Utilisateur/Create">Inscription</a></li>
+                    }
+                    else
+                    {
+                        <li class="pull-right"><a href="/Utilisateur/Edit">Modifier profil</a></li>
+                        <li class="pull-right"><a href="/Utilisateur/Logout">Sign out</a></li>
+                        if (User.Identity.Name == "admin")
+                        {
+                        <li class="dropdown open">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                                Gestion
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/Album/Index">Gestion des Albums</a></li>
+                                <li><a href="/Genre/Index">Gestion des Genres</a></li>
+                            </ul>
+                        </li>
+                        }
+                        else 
+                        { 
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Genres
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    @{
+                                        Depot depot = new Depot();
+                                        var listeDeGenre = depot.Genres.List();
+                                        foreach (var item in listeDeGenre)
+                                        {
+                                            <li><a href="/Musique/Index?GenreId=@item.GenreId">@item.NomGenre</a></li>
+                                        }
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    }
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; Alexandru Prisecariu</p>
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-3.4.1.slim.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.bootstrap.min.js"></script>
+</body>
+</html>

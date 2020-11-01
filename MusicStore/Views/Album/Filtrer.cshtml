@@ -1,0 +1,74 @@
+﻿@using MusicStore.Models
+
+@{
+    Depot depot = new Depot();
+
+    if (User.Identity.IsAuthenticated && User.Identity.Name == "admin")
+    {
+        <div class="well well-sm">
+            <form class="form-inline" action="/Album/Index" method="get">
+                <div class="form-group">
+                    <label for="FiltreTitre">Titre:</label>
+                    <input type="text" class="form-control" id="FiltreTitre" name="FiltreTitre" placeholder="Entrez un Titre">
+                </div>
+                <div class="form-group">
+                    <label for="FiltreArtiste">Artiste:</label>
+                    <input type="text" class="form-control" id="FiltreArtiste" name="FiltreNom" placeholder="Entrez un Artiste">
+                </div>
+                <div class="form-group">
+                    <label for="FiltreGenre">Genre:</label>
+                    <select class="form-control">
+                        @{
+
+                            var listeDeGenre = depot.Genres.List();
+
+                            foreach (var item in listeDeGenre)
+                            {
+                                <option value="@item.NomGenre" id="FiltreGenre" name="FiltreGenre">@item.NomGenre</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <input type="submit" class="btn btn-default" value="Filtrer" formaction="Filtrer">
+            </form>
+        </div>
+    }
+
+    var listeDeAlbum = depot.Albums.List();
+
+    foreach (var item in listeDeAlbum)
+    {
+        <div class="col-xs-3">
+            <div class="text-center">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="/Album/Edit?id=@item.AlbumId">
+                            <h4>@item.Titre</h4>
+                        </a>
+
+                        <h5>@item.Artiste</h5>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            <a href="/Album/Edit?id=@item.AlbumId">
+                                <img src="@item.Cover" class="img-rounded" style="max-height:200px;max-width:200px;min-height:200px;min-width:200px">
+                            </a>
+                        </p>
+                        <p>@item.Prix</p>
+                    </div>
+                    <div class="panel-footer">
+                        @if (User.Identity.Name == "admin")
+                        {
+                            <a class="btn btn-primary" href="/Album/Edit?id=@item.AlbumId">Edit</a>
+                            <a class="btn btn-danger" href="/Album/Delete?id=@item.AlbumId">Delete</a>
+                        }
+                        else
+                        {
+                            <a class="btn btn-danger" href="/Panier/Index?AlbumId=@item.AlbumId">Acheter</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

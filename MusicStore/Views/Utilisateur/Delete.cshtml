@@ -1,0 +1,22 @@
+﻿@model MusicStore.Models.DataModels.Utilisateur
+
+@{ ViewBag.Title = "Voulez-vous vraiment suprimer votre profil?"; }
+
+<h2>@ViewBag.Title</h2>
+
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+@using (Html.BeginForm("Delete", "Utilisateur", FormMethod.Post)) {
+    @Html.AntiForgeryToken()
+    @*
+        Notez qu'on ignore le UtilisateurId dans
+        la méthode [HttpPost] Edit
+        il n'est donc pas nécessaire de placer
+        @Html.HiddenFor(m=>m.UtilisateurId)
+        dans le formulaire (cette fois-ci)
+    *@
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </div>
+}

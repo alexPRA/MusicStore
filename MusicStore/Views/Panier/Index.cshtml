@@ -1,0 +1,74 @@
+﻿@model IEnumerable<MusicStore.Models.DataModels.Album>
+@using MusicStore.Models.DataModels
+
+<h2>Panier</h2>
+  @{double total = 0; }
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Cover)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Titre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnneeParution)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Artiste)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Prix)
+        </th>
+        <th>
+            <p>Options</p>
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                <img src="@item.Cover" class="img-responsive" style="max-width:50px; max-height:50px;border-radius:25%;" />@Html.HiddenFor(modelItem => item.GenreId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Titre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AnneeParution)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Artiste)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Prix)
+            </td>
+            <td>
+                @Html.ActionLink("Supprimer l'article du panier","Delete", new { AlbumId = item.AlbumId }, new { @class="btn btn-danger"})
+            </td>
+            @{total += (double)item.Prix;}
+        </tr>
+      
+    }
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td> @Html.ActionLink("Vider le panier", "DeleteAll", "Panier", new { @class="btn btn-danger"} )</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><p>TOTAL: @total</p></td>
+        <td></td>
+        <td></td>
+    </tr>
+
+</table>
